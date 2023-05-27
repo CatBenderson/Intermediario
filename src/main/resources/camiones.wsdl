@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:sch="https://t4is.uv.mx/camiones" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="https://t4is.uv.mx/camiones" targetNamespace="https://t4is.uv.mx/camiones">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+      targetNamespace="https://t4is.uv.mx/camiones">
+
+      <!-- GET -->
+      <xs:element name="ReadOneCamionRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="ReadOneCamionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="status" type="xs:string" />
+            <xs:element name="Camion">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" type="xs:int" />
+                  <xs:element name="chofer" type="xs:string" />
+                  <xs:element name="temperatura">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element maxOccurs="unbounded" name="celsius" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="carga">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="objeto" type="xs:string" />
+                        <xs:element name="cantidad" type="xs:int" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ubicacion">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="latitud" type="xs:double" />
+                        <xs:element name="longitud" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="ReadAllCamionRequest" />
+
+      <xs:element name="ReadAllCamionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="status" type="xs:string" />
+            <xs:element maxOccurs="unbounded" name="Camion">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" type="xs:int" />
+                  <xs:element name="chofer" type="xs:string" />
+                  <xs:element name="temperatura">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element maxOccurs="unbounded" name="celsius" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="carga">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="objeto" type="xs:string" />
+                        <xs:element name="cantidad" type="xs:int" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ubicacion">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="latitud" type="xs:double" />
+                        <xs:element name="longitud" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <!-- POST -->
+      <xs:element name="AgregarCamionRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="chofer" type="xs:string" />
+            <xs:element name="celsius" type="xs:double" />
+            <xs:element name="objeto" type="xs:string" />
+            <xs:element name="cantidad" type="xs:int" />
+            <xs:element name="latitud" type="xs:double" />
+            <xs:element name="longitud" type="xs:double" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="AgregarCamionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="status" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <!-- PUT -->
+      <xs:element name="ModificarCamionRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:int" />
+            <xs:element name="chofer" type="xs:string" />
+            <xs:element name="celsius" type="xs:string" />
+            <xs:element name="objeto" type="xs:string" />
+            <xs:element name="cantidad" type="xs:int" />
+            <xs:element name="latitud" type="xs:double" />
+            <xs:element name="longitud" type="xs:double" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="ModificarCamionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="status" type="xs:string" />
+            <xs:element name="Camion">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" type="xs:int" />
+                  <xs:element name="chofer" type="xs:string" />
+                  <xs:element maxOccurs="unbounded" name="temperatura">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="celsius" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="carga">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="objeto" type="xs:string" />
+                        <xs:element name="cantidad" type="xs:int" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ubicacion">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="latitud" type="xs:double" />
+                        <xs:element name="longitud" type="xs:double" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <!-- DELETE -->
+      <xs:element name="EliminarCamionRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="EliminarCamionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="status" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ReadAllCamionResponse">
+    <wsdl:part element="tns:ReadAllCamionResponse" name="ReadAllCamionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadAllCamionRequest">
+    <wsdl:part element="tns:ReadAllCamionRequest" name="ReadAllCamionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AgregarCamionRequest">
+    <wsdl:part element="tns:AgregarCamionRequest" name="AgregarCamionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ModificarCamionRequest">
+    <wsdl:part element="tns:ModificarCamionRequest" name="ModificarCamionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOneCamionRequest">
+    <wsdl:part element="tns:ReadOneCamionRequest" name="ReadOneCamionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AgregarCamionResponse">
+    <wsdl:part element="tns:AgregarCamionResponse" name="AgregarCamionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOneCamionResponse">
+    <wsdl:part element="tns:ReadOneCamionResponse" name="ReadOneCamionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ModificarCamionResponse">
+    <wsdl:part element="tns:ModificarCamionResponse" name="ModificarCamionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EliminarCamionRequest">
+    <wsdl:part element="tns:EliminarCamionRequest" name="EliminarCamionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EliminarCamionResponse">
+    <wsdl:part element="tns:EliminarCamionResponse" name="EliminarCamionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="camionesPort">
+    <wsdl:operation name="ReadAllCamion">
+      <wsdl:input message="tns:ReadAllCamionRequest" name="ReadAllCamionRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:ReadAllCamionResponse" name="ReadAllCamionResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AgregarCamion">
+      <wsdl:input message="tns:AgregarCamionRequest" name="AgregarCamionRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:AgregarCamionResponse" name="AgregarCamionResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarCamion">
+      <wsdl:input message="tns:ModificarCamionRequest" name="ModificarCamionRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:ModificarCamionResponse" name="ModificarCamionResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadOneCamion">
+      <wsdl:input message="tns:ReadOneCamionRequest" name="ReadOneCamionRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:ReadOneCamionResponse" name="ReadOneCamionResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarCamion">
+      <wsdl:input message="tns:EliminarCamionRequest" name="EliminarCamionRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:EliminarCamionResponse" name="EliminarCamionResponse">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="camionesPortSoap11" type="tns:camionesPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReadAllCamion">
+      <soap:operation soapAction="" />
+      <wsdl:input name="ReadAllCamionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ReadAllCamionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AgregarCamion">
+      <soap:operation soapAction="" />
+      <wsdl:input name="AgregarCamionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="AgregarCamionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarCamion">
+      <soap:operation soapAction="" />
+      <wsdl:input name="ModificarCamionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ModificarCamionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadOneCamion">
+      <soap:operation soapAction="" />
+      <wsdl:input name="ReadOneCamionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ReadOneCamionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarCamion">
+      <soap:operation soapAction="" />
+      <wsdl:input name="EliminarCamionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EliminarCamionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="camionesPortService">
+    <wsdl:port binding="tns:camionesPortSoap11" name="camionesPortSoap11">
+      <soap:address location="http://localhost:8090/ws" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
