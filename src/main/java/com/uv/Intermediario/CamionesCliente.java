@@ -1,4 +1,7 @@
 package com.uv.Intermediario;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import mx.xlp.AgregarCamionRequest;
@@ -16,13 +19,13 @@ public class CamionesCliente extends WebServiceGatewaySupport{
     private CamionMapper mapper;
 
     public ReadAllCamionResponse leerTodos(){
-        return (ReadAllCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL);
+        JAXBElement<ReadAllCamionRequest> requestElement = new JAXBElement<>(new QName("https://t4is.uv.mx/camiones", "ReadAllCamionRequest"), ReadAllCamionRequest.class,null);
+        return (ReadAllCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, requestElement);
     }
 
     public ReadOneCamionResponse leerUno(Integer id){
         ReadOneCamionRequest readOneRequest = new ReadOneCamionRequest();
         readOneRequest.setId(id);
-
         System.out.println(getDefaultUri());
 
         return (ReadOneCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, readOneRequest);

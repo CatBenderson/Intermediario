@@ -1,5 +1,8 @@
 package com.uv.Intermediario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,102 +17,96 @@ import mx.xlp.ReadAllCamionResponse;
 
 @RestController
 @SpringBootApplication
-public class IntermediarioApplication{
+public class IntermediarioApplication {
 	@Autowired
 	private CamionesCliente camionesCliente;
 	private CamionMapper mapper;
 	private String result = "{\"status\": \"Failed\"}";
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		SpringApplication.run(IntermediarioApplication.class, args);
 	}
 
-	
 	@RequestMapping(value = "/camiones", method = RequestMethod.GET)
-	public String getCamiones(){
-		try{
+	public String getCamiones() {
+		JSONObject respuesta = new JSONObject();
+		JSONObject data = new JSONObject();
+		try {
 			ReadAllCamionResponse camiones = camionesCliente.leerTodos();
-
-			if(camiones != null){
-				result = "{\"status\": \"Success\", \"data\": [";
-	
-				for(ReadAllCamionResponse.Camion readAllCamion : camiones.getCamion())
-					result = result + "{" + mapper.readAllCamionToCamion(readAllCamion).toString() + "}, ";
-	
-				result = result + "]}";
+			respuesta.put("status", camiones.getStatus());
+			for (ReadAllCamionResponse.Camion readAllCamion : camiones.getCamion()) {
+				JSONObject a = new JSONObject();
+				String aux = readAllCamion.getId() +"";
+				a.put("id", readAllCamion.getId());
+				a.put("chofer", readAllCamion.getChofer());
+				a.put("objeto", readAllCamion.getCarga().getObjeto());
+				a.put("cantidad", readAllCamion.getCarga().getCantidad());
+				a.put("latitud", readAllCamion.getUbicacion().getLatitud());
+				a.put("longitud", readAllCamion.getUbicacion().getLongitud());
+				data.put(aux, a);
 			}
-		}catch(Exception e){}
+			respuesta.put("data", data);
 
-		return new JSONObject(result).toString();
+			return respuesta.toString();
+		} catch (Exception e) {
+		}
 
-		//*  este código con expresión lambda se ejecuta una vez concluida la carga de la aplicacion */
-		// return x -> {
-		// 	ReadOneCamionResponse sr = camionesCliente.leerUno(1);
-		// 	System.err.println(sr.getCamion().getId());
-		// 	System.err.println(sr.getCamion().getChofer());
-		// 	System.err.println(sr.getCamion().getCarga().getCantidad());
-		// 	System.err.println(sr.getCamion().getCarga().getObjeto());
-		// 	System.err.println(sr.getCamion().getUbicacion().getLatitud());
-		// 	System.err.println(sr.getCamion().getUbicacion().getLongitud());
-		// };
-		
-		//* en cambio, este codigo se ejecuta durante la carga de la aplicaicón */
-		// SaludarResponse sr = camionesCliente.saludar("yo-yo");
-		// System.err.println(sr.getRespuesta());
-		// return null;
+		respuesta.put("status", "Failed");
+		return respuesta.toString();
 	}
 
-	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.GET)
-	public String getCamion(@PathVariable Integer id){
-		try{
+	public String getCamion(@PathVariable Integer id) {
+		try {
 			Camion camion = mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion());
 
-			if(camion != null) result = "{\"status\": \"Success\", \"data\": {" + camion.toString() + "}}";
-		}catch(Exception e){}
+			if (camion != null)
+				result = "{\"status\": \"Success\", \"data\": {" + camion.toString() + "}}";
+		} catch (Exception e) {
+		}
 
 		return new JSONObject(result).toString();
 	}
 
-	
 	@RequestMapping(value = "/camiones", method = RequestMethod.POST)
-	public String addCamion(@RequestBody Camion camion){
-		try{
-			if(camion != null){
+	public String addCamion(@RequestBody Camion camion) {
+		try {
+			if (camion != null) {
 				camionesCliente.agregar(camion);
 				result = "{\"status\": \"Success\"}";
 			}
-		}catch(Exception e){}
+		} catch (Exception e) {
+		}
 
 		return new JSONObject(result).toString();
 	}
 
-	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.PUT)
-	public String updateCamion(@PathVariable Integer id, @RequestBody Camion camion){
-		try{
-			if(camion != null){
-				if(mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion()) != null){
+	public String updateCamion(@PathVariable Integer id, @RequestBody Camion camion) {
+		try {
+			if (camion != null) {
+				if (mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion()) != null) {
 					camionesCliente.modificar(camion);
 					result = "{\"status\": \"Success\", \"data\": {" + camion.toString() + "}}";
 				}
 			}
-		}catch(Exception e){}
+		} catch (Exception e) {
+		}
 
 		return new JSONObject(result).toString();
 	}
 
-	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.DELETE)
-	public String deleteCamion(@PathVariable Integer id){
-		try{
+	public String deleteCamion(@PathVariable Integer id) {
+		try {
 			Camion camion = mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion());
 
-			if(camion != null){
+			if (camion != null) {
 				camionesCliente.eliminar(id);
 				result = "{\"status\": \"Success\"}";
 			}
-		}catch(Exception e){}
+		} catch (Exception e) {
+		}
 
 		return new JSONObject(result).toString();
 	}
