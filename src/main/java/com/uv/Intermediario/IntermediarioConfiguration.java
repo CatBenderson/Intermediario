@@ -1,4 +1,4 @@
-package com.uv.intermediario;
+package com.uv.Intermediario;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

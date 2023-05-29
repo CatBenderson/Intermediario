@@ -1,4 +1,4 @@
-package com.uv.intermediario;
+package com.uv.Intermediario;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,10 +1,9 @@
-package com.uv.intermediario;
+package com.uv.Intermediario;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,7 @@ public class IntermediarioApplication{
 		SpringApplication.run(IntermediarioApplication.class, args);
 	}
 
-	@Bean
+	
 	@RequestMapping(value = "/camiones", method = RequestMethod.GET)
 	public String getCamiones(){
 		try{
@@ -60,7 +59,7 @@ public class IntermediarioApplication{
 		// return null;
 	}
 
-	@Bean
+	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.GET)
 	public String getCamion(@PathVariable Integer id){
 		try{
@@ -72,7 +71,7 @@ public class IntermediarioApplication{
 		return new JSONObject(result).toString();
 	}
 
-	@Bean
+	
 	@RequestMapping(value = "/camiones", method = RequestMethod.POST)
 	public String addCamion(@RequestBody Camion camion){
 		try{
@@ -85,7 +84,7 @@ public class IntermediarioApplication{
 		return new JSONObject(result).toString();
 	}
 
-	@Bean
+	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.PUT)
 	public String updateCamion(@PathVariable Integer id, @RequestBody Camion camion){
 		try{
@@ -100,7 +99,7 @@ public class IntermediarioApplication{
 		return new JSONObject(result).toString();
 	}
 
-	@Bean
+	
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.DELETE)
 	public String deleteCamion(@PathVariable Integer id){
 		try{

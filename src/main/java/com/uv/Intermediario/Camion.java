@@ -1,4 +1,4 @@
-package com.uv.intermediario;
+package com.uv.Intermediario;
 
 import java.util.ArrayList;
 

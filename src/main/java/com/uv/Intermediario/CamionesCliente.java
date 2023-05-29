@@ -1,4 +1,4 @@
-package com.uv.intermediario;
+package com.uv.Intermediario;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import mx.xlp.AgregarCamionRequest;
