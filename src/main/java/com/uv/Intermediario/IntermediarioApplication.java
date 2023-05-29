@@ -46,12 +46,10 @@ public class IntermediarioApplication {
 				data.put(aux, a);
 			}
 			respuesta.put("data", data);
-
-			return respuesta.toString();
+			//return respuesta.toString();
 		} catch (Exception e) {
+			respuesta.put("status", "Failed");
 		}
-
-		respuesta.put("status", "Failed");
 		return respuesta.toString();
 	}
 
