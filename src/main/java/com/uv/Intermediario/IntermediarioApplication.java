@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import mx.xlp.AgregarCamionResponse;
 import mx.xlp.ReadAllCamionResponse;
+import mx.xlp.ReadOneCamionResponse;
 
 @RestController
 @SpringBootApplication
@@ -36,17 +38,18 @@ public class IntermediarioApplication {
 			respuesta.put("status", camiones.getStatus());
 			for (ReadAllCamionResponse.Camion readAllCamion : camiones.getCamion()) {
 				JSONObject a = new JSONObject();
-				String aux = readAllCamion.getId() +"";
+				String aux = readAllCamion.getId() + "";
 				a.put("id", readAllCamion.getId());
 				a.put("chofer", readAllCamion.getChofer());
 				a.put("objeto", readAllCamion.getCarga().getObjeto());
 				a.put("cantidad", readAllCamion.getCarga().getCantidad());
 				a.put("latitud", readAllCamion.getUbicacion().getLatitud());
 				a.put("longitud", readAllCamion.getUbicacion().getLongitud());
+				a.put("temperatura", readAllCamion.getTemperatura().getCelsius());
 				data.put(aux, a);
 			}
 			respuesta.put("data", data);
-			//return respuesta.toString();
+			// return respuesta.toString();
 		} catch (Exception e) {
 			respuesta.put("status", "Failed");
 		}
@@ -55,28 +58,35 @@ public class IntermediarioApplication {
 
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.GET)
 	public String getCamion(@PathVariable Integer id) {
+		JSONObject respuesta = new JSONObject();
+		JSONObject data = new JSONObject();
 		try {
-			Camion camion = mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion());
-
-			if (camion != null)
-				result = "{\"status\": \"Success\", \"data\": {" + camion.toString() + "}}";
+			ReadOneCamionResponse sr = camionesCliente.leerUno(id);
+			respuesta.put("status", sr.getStatus());
+			data.put("id", sr.getCamion().getId());
+			data.put("chofer", sr.getCamion().getChofer());
+			data.put("objeto", sr.getCamion().getCarga().getObjeto());
+			data.put("cantidad", sr.getCamion().getCarga().getCantidad());
+			data.put("latitud", sr.getCamion().getUbicacion().getLatitud());
+			data.put("longitud", sr.getCamion().getUbicacion().getLongitud());
+			data.put("temperatura", sr.getCamion().getTemperatura().getCelsius());
+			respuesta.put("data", data);
 		} catch (Exception e) {
+			respuesta.put("status", "Failed");
 		}
-
-		return new JSONObject(result).toString();
+		return respuesta.toString();
 	}
 
 	@RequestMapping(value = "/camiones", method = RequestMethod.POST)
 	public String addCamion(@RequestBody Camion camion) {
+		JSONObject respuesta = new JSONObject();
 		try {
-			if (camion != null) {
-				camionesCliente.agregar(camion);
-				result = "{\"status\": \"Success\"}";
-			}
+			AgregarCamionResponse sr = camionesCliente.agregar(camion);
+			respuesta.put("status", "Success");
 		} catch (Exception e) {
+			respuesta.put("status", "Failed");
 		}
-
-		return new JSONObject(result).toString();
+		return respuesta.toString();
 	}
 
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.PUT)

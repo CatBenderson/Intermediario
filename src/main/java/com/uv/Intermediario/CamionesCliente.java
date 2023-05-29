@@ -32,8 +32,14 @@ public class CamionesCliente extends WebServiceGatewaySupport{
     }
 
     public AgregarCamionResponse agregar(Camion camion){
-        AgregarCamionRequest agregarRequest = mapper.camionToAgregarCamion(camion, camion.getTemperatura().get(0));
-
+        AgregarCamionRequest agregarRequest = new AgregarCamionRequest();
+        agregarRequest.setChofer(camion.getChofer());
+        agregarRequest.setCantidad(camion.getCantidad());
+        agregarRequest.setObjeto(camion.getObjeto());
+        agregarRequest.setLatitud(camion.getLatitud());
+        agregarRequest.setLongitud(camion.getLongitud());
+        agregarRequest.setCelsius(camion.getTemperatura().get(0));
+        
         return (AgregarCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, agregarRequest);
     }
 
