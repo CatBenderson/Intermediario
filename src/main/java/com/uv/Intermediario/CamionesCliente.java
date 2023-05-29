@@ -16,7 +16,6 @@ import mx.xlp.ReadOneCamionResponse;
 
 public class CamionesCliente extends WebServiceGatewaySupport{
     private final String API_URL = "http://localhost:8090/ws/camiones";
-    private CamionMapper mapper;
 
     public ReadAllCamionResponse leerTodos(){
         JAXBElement<ReadAllCamionRequest> requestElement = new JAXBElement<>(new QName("https://t4is.uv.mx/camiones", "ReadAllCamionRequest"), ReadAllCamionRequest.class,null);
@@ -26,8 +25,6 @@ public class CamionesCliente extends WebServiceGatewaySupport{
     public ReadOneCamionResponse leerUno(Integer id){
         ReadOneCamionRequest readOneRequest = new ReadOneCamionRequest();
         readOneRequest.setId(id);
-        System.out.println(getDefaultUri());
-
         return (ReadOneCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, readOneRequest);
     }
 
@@ -43,13 +40,20 @@ public class CamionesCliente extends WebServiceGatewaySupport{
         return (AgregarCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, agregarRequest);
     }
 
-    public ModificarCamionResponse modificar(Camion camion){
+    public ModificarCamionResponse modificar(Integer id,Camion camion){
         String valoresTemp = "";
         for(Double valor : camion.getTemperatura()){
             valoresTemp = valoresTemp + String.valueOf(valor) + ",";
         }
-
-        ModificarCamionRequest modificarRequest = mapper.camionToModificarCamion(camion, valoresTemp);
+    
+        ModificarCamionRequest modificarRequest = new ModificarCamionRequest();
+        modificarRequest.setChofer(camion.getChofer());
+        modificarRequest.setCantidad(camion.getCantidad());
+        modificarRequest.setObjeto(camion.getObjeto());
+        modificarRequest.setLatitud(camion.getLatitud());
+        modificarRequest.setLongitud(camion.getLongitud());
+        modificarRequest.setCelsius(valoresTemp);
+        modificarRequest.setId(id);
 
         return (ModificarCamionResponse) getWebServiceTemplate().marshalSendAndReceive(API_URL, modificarRequest);
     }

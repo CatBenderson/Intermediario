@@ -1,29 +1,26 @@
 package com.uv.Intermediario;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.xlp.AgregarCamionResponse;
+
 import mx.xlp.ReadAllCamionResponse;
 import mx.xlp.ReadOneCamionResponse;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @SpringBootApplication
 public class IntermediarioApplication {
 	@Autowired
 	private CamionesCliente camionesCliente;
-	private CamionMapper mapper;
-	private String result = "{\"status\": \"Failed\"}";
 
 	public static void main(String[] args) {
 		SpringApplication.run(IntermediarioApplication.class, args);
@@ -81,7 +78,7 @@ public class IntermediarioApplication {
 	public String addCamion(@RequestBody Camion camion) {
 		JSONObject respuesta = new JSONObject();
 		try {
-			AgregarCamionResponse sr = camionesCliente.agregar(camion);
+			camionesCliente.agregar(camion);
 			respuesta.put("status", "Success");
 		} catch (Exception e) {
 			respuesta.put("status", "Failed");
@@ -91,31 +88,32 @@ public class IntermediarioApplication {
 
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.PUT)
 	public String updateCamion(@PathVariable Integer id, @RequestBody Camion camion) {
+		JSONObject respuesta = new JSONObject();
 		try {
-			if (camion != null) {
-				if (mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion()) != null) {
-					camionesCliente.modificar(camion);
-					result = "{\"status\": \"Success\", \"data\": {" + camion.toString() + "}}";
-				}
+			ReadOneCamionResponse sr = camionesCliente.leerUno(id);
+			if (sr.getCamion() != null) {
+				camionesCliente.modificar(id,camion);
+				respuesta.put("status", "Success");
 			}
 		} catch (Exception e) {
+			respuesta.put("status", "Failed");
 		}
-
-		return new JSONObject(result).toString();
+		return respuesta.toString();
 	}
 
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.DELETE)
 	public String deleteCamion(@PathVariable Integer id) {
+		JSONObject respuesta = new JSONObject();
 		try {
-			Camion camion = mapper.readOneCamionToCamion(camionesCliente.leerUno(id).getCamion());
-
-			if (camion != null) {
+			ReadOneCamionResponse sr = camionesCliente.leerUno(id);
+			if (sr.getCamion() != null) {
 				camionesCliente.eliminar(id);
-				result = "{\"status\": \"Success\"}";
-			}
-		} catch (Exception e) {
-		}
 
-		return new JSONObject(result).toString();
+			}
+			respuesta.put("status", "Success");
+		} catch (Exception e) {
+			respuesta.put("status", "Failed");
+		}
+		return respuesta.toString();
 	}
 }
