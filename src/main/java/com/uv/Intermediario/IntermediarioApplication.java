@@ -1,5 +1,8 @@
 package com.uv.Intermediario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -29,13 +32,12 @@ public class IntermediarioApplication {
 	@RequestMapping(value = "/camiones", method = RequestMethod.GET)
 	public String getCamiones() {
 		JSONObject respuesta = new JSONObject();
-		JSONObject data = new JSONObject();
+		List<JSONObject> data = new ArrayList<>();
 		try {
 			ReadAllCamionResponse camiones = camionesCliente.leerTodos();
 			respuesta.put("status", camiones.getStatus());
 			for (ReadAllCamionResponse.Camion readAllCamion : camiones.getCamion()) {
 				JSONObject a = new JSONObject();
-				String aux = readAllCamion.getId() + "";
 				a.put("id", readAllCamion.getId());
 				a.put("chofer", readAllCamion.getChofer());
 				a.put("objeto", readAllCamion.getCarga().getObjeto());
@@ -43,7 +45,7 @@ public class IntermediarioApplication {
 				a.put("latitud", readAllCamion.getUbicacion().getLatitud());
 				a.put("longitud", readAllCamion.getUbicacion().getLongitud());
 				a.put("temperatura", readAllCamion.getTemperatura().getCelsius());
-				data.put(aux, a);
+				data.add(a);
 			}
 			respuesta.put("data", data);
 			// return respuesta.toString();
@@ -92,8 +94,8 @@ public class IntermediarioApplication {
 		try {
 			ReadOneCamionResponse sr = camionesCliente.leerUno(id);
 			if (sr.getCamion() != null) {
-				camionesCliente.modificar(id,camion);
 				respuesta.put("status", "Success");
+				camionesCliente.modificar(id,camion);
 			}
 		} catch (Exception e) {
 			respuesta.put("status", "Failed");

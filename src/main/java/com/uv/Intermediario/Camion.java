@@ -1,6 +1,7 @@
 package com.uv.Intermediario;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class Camion{
     private Integer id;
@@ -78,6 +79,14 @@ public class Camion{
     }
 
     public String toString(){
-        return "\"id\": \"" + this.getId() + "\", \"chofer\": \"" + this.getChofer() + "\", \"temperatura\": " + this.getTemperatura().toString() + ", \"objeto\": \"" + this.getObjeto() + "\", \"cantidad\": \"" + this.getCantidad() + "\", \"latitud\": \"" + this.getLatitud() + "\", \"longitud\": \"" + this.getLongitud() + "\"";
+        JSONObject respuesta = new JSONObject();
+        respuesta.put("id", this.getId());
+        respuesta.put("chofer", this.getChofer());
+        respuesta.put("temperatura", this.getTemperatura());
+        respuesta.put("objeto", this.getObjeto());
+        respuesta.put("cantidad", this.getCantidad());
+        respuesta.put("latitud", this.getLatitud());
+        respuesta.put("longitud", this.getLongitud());
+        return respuesta.toString();
     }
 }
