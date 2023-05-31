@@ -15,7 +15,7 @@ import mx.xlp.ReadOneCamionRequest;
 import mx.xlp.ReadOneCamionResponse;
 
 public class CamionesCliente extends WebServiceGatewaySupport{
-    private final String API_URL = "http://localhost:8090/ws/camiones";
+    private final String API_URL = "https://camiones-production.up.railway.app/ws";
 
     public ReadAllCamionResponse leerTodos(){
         JAXBElement<ReadAllCamionRequest> requestElement = new JAXBElement<>(new QName("https://t4is.uv.mx/camiones", "ReadAllCamionRequest"), ReadAllCamionRequest.class,null);
