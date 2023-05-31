@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import mx.xlp.ReadAllCamionResponse;
 import mx.xlp.ReadOneCamionResponse;
 
+//Anotación para permitir solicitudes de cualquier origen (CORS)
 @CrossOrigin(origins = "*", maxAge = 3600)
+
+//Clase RestController que define los recursos que el servicio va a ofrecer
 @RestController
 @SpringBootApplication
 public class IntermediarioApplication {
@@ -29,6 +32,9 @@ public class IntermediarioApplication {
 		SpringApplication.run(IntermediarioApplication.class, args);
 	}
 
+	/*Recurso que recupera los datos de todos los camiones registrados en la base de datos. Los almacena en un 
+	Array<JSON> y los regresa junto a un estado de la petición
+	*/
 	@RequestMapping(value = "/camiones", method = RequestMethod.GET)
 	public String getCamiones() {
 		JSONObject respuesta = new JSONObject();
@@ -54,7 +60,10 @@ public class IntermediarioApplication {
 		}
 		return respuesta.toString();
 	}
-
+	
+	/*Recurso que recupera los datos de un camión registrado en la base de datos. Toma el id del recurso 
+	y regresa sus datos en un formato JSON junto a un estado de la petición
+	*/
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.GET)
 	public String getCamion(@PathVariable Integer id) {
 		JSONObject respuesta = new JSONObject();
@@ -75,7 +84,10 @@ public class IntermediarioApplication {
 		}
 		return respuesta.toString();
 	}
-
+	
+	/*Recurso que registra los datos de un camión en la base de datos. Toma el objeto camión del cuerpo de la petición
+	y tras procesarlos regresa el estado de la petición;
+	*/
 	@RequestMapping(value = "/camiones", method = RequestMethod.POST)
 	public String addCamion(@RequestBody Camion camion) {
 		JSONObject respuesta = new JSONObject();
@@ -87,7 +99,10 @@ public class IntermediarioApplication {
 		}
 		return respuesta.toString();
 	}
-
+	
+	/*Recurso que actualiza los datos de un camión en la base de datos. Toma el objeto camión del cuerpo de la petición
+	y tras procesarlos regresa el estado de la petición;
+	*/
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.PUT)
 	public String updateCamion(@PathVariable Integer id, @RequestBody Camion camion) {
 		JSONObject respuesta = new JSONObject();
@@ -103,6 +118,9 @@ public class IntermediarioApplication {
 		return respuesta.toString();
 	}
 
+	/*Recurso que elimina los datos de un camión registrado en la base de datos. Toma el id del recurso 
+	y tras procesarlo regresa el estado de la petición
+	*/
 	@RequestMapping(value = "/camiones/{id}", method = RequestMethod.DELETE)
 	public String deleteCamion(@PathVariable Integer id) {
 		JSONObject respuesta = new JSONObject();

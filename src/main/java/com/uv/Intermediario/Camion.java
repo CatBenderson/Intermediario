@@ -3,6 +3,7 @@ package com.uv.Intermediario;
 import java.util.ArrayList;
 import org.json.JSONObject;
 
+//Clase Camion que sirve de apoyo para guardar los datos de las entidades que se registrarán.
 public class Camion{
     private Integer id;
     private String chofer;
